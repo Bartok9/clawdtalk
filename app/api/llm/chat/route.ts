@@ -9,7 +9,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Missing required fields: provider, model, messages' }, { status: 400 });
   }
 
-  const resolvedKey = apiKey || process.env[`${provider.toUpperCase()}_API_KEY`] || '';
+  const envKeyMap: Record<string, string> = {
+    openai: 'OPENAI_API_KEY',
+    anthropic: 'ANTHROPIC_API_KEY',
+    google: 'GOOGLE_API_KEY',
+    openrouter: 'OPENROUTER_API_KEY',
+    custom: 'CUSTOM_API_KEY',
+  };
+  const resolvedKey = apiKey || process.env[envKeyMap[provider] || `${provider.toUpperCase()}_API_KEY`] || '';
   if (!resolvedKey) {
     return NextResponse.json({ error: `No API key for provider: ${provider}` }, { status: 400 });
   }

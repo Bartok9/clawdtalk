@@ -60,12 +60,12 @@ export async function POST(req: NextRequest) {
         // Simple reply - in production, look up agent config
         try {
           const reply = await chatWithLLM({
-            provider: 'openai', model: 'gpt-4o',
+            provider: 'openrouter', model: 'openai/gpt-4o',
             messages: [
               { role: 'system', content: 'You are a helpful phone agent. Keep responses brief and conversational.' },
               { role: 'user', content: speech },
             ],
-            apiKey: process.env.OPENAI_API_KEY || '',
+            apiKey: process.env.OPENROUTER_API_KEY || '',
           });
 
           addMessage(callControlId, {

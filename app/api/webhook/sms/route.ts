@@ -42,12 +42,12 @@ export async function POST(req: NextRequest) {
   // Generate reply
   try {
     const reply = await chatWithLLM({
-      provider: 'openrouter', model: 'openai/gpt-4o',
+      provider: 'anthropic', model: 'claude-sonnet-4-20250514',
       messages: [
         { role: 'system', content: 'You are a helpful SMS agent. Keep responses brief (under 160 chars when possible).' },
         ...conv.messages.map(m => ({ role: m.role, content: m.content })),
       ],
-      apiKey: process.env.OPENROUTER_API_KEY || '',
+      apiKey: process.env.ANTHROPIC_API_KEY || '',
     });
 
     addMessage(conv.id, {
